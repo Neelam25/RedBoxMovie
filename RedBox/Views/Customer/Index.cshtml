@@ -1,0 +1,62 @@
+﻿@using RedBox.Models
+@model IEnumerable<RedBox.Models.CustomerModel>
+
+<h2>Customers</h2>
+@*
+       @Html.ActionLink("New Customer","New","Customer",new { @class="btn btn-primary mb-2"})
+
+    <table class="table table-bordered ">
+        <tr>
+            <th>
+                Customer
+            </th>
+            <th>Membership Type</th>
+        </tr>
+
+            @foreach (var customer in Model)
+            {
+        <tr>
+            <td>@Html.ActionLink(customer.Name, "Edit", "Customer", new { id = customer.ID }, null)</td>
+            <td>@customer.MembershipType.Name</td>
+        </tr>
+        }
+       </table>
+*@
+@*======================= Following Structure for Creating UI from consuming API==============================*@
+<table id="customer" class="table table-bordered table-hover">
+    <thead>
+    <th>Customer</th>
+    <th>Membership Type</th>
+    <th>Delete</th>
+    </thead>
+    <tbody></tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#customer").DataTable({
+                ajax: {
+                    url: "api/customers",
+                    dataSrc: ""
+                },
+                columns: [{
+                    data: "name",
+                    render: function (data, type, customer) {
+                        return "<a href='/Customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                    }
+                },
+                    {
+                    data: "name"
+                },
+                {
+                    data: "id",
+                    render: function (data) {
+                        return "<button class='btn-link'  data-customer-id =" + data + ">Delete</button>";
+                    }
+                }
+                ]
+            });
+        });
+    </script>
+}
+
